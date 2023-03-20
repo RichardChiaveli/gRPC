@@ -1,0 +1,40 @@
+syntax = "proto3";
+
+option csharp_namespace = "gRPC.Client";
+
+//https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/wrappers.proto
+import "google/protobuf/wrappers.proto";  
+
+//https://github.com/protocolbuffers/protobuf/blob/main/src/google/protobuf/empty.proto
+import "google/protobuf/empty.proto";
+
+package todo;
+
+message TodoParam {
+	int32 Id = 1;
+	string Description = 2;
+	bool Done = 3;
+}
+
+message AddTodoParam {
+	string Description = 1;
+	bool Done = 2;
+}
+
+message GetAllTodoResult {
+	repeated TodoParam Value = 1;
+}
+
+service TodoServiceContract {
+	rpc Add(AddTodoParam)
+	returns (google.protobuf.Empty);
+
+	rpc GetAll(google.protobuf.Empty)
+	returns (GetAllTodoResult);
+
+	rpc Update(TodoParam)
+	returns (google.protobuf.BoolValue);
+
+	rpc Remove(google.protobuf.Int32Value)
+	returns (google.protobuf.BoolValue);
+}
